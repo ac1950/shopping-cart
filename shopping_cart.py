@@ -38,11 +38,18 @@ def to_usd(my_price):
 print(products)
 
 #
-# INFO
-inputed_id = input("Please input a product indentifier: ")
-matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
-matching_product = matching_products[0]
-print("Selected Product: " + matching_product["name"] + ". -- Price: " + str(matching_product["price"]))
+# ID Input
+
+
+while True: 
+    inputed_id = input("Please input a product indentifier: ")
+    # Stops loop if the user enters done
+    if inputed_id == "DONE" or inputed_id == "Done" or inputed_id == "done":
+        break 
+    else:
+        matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
+        matching_product = matching_products[0]
+        print("Selected Product: " + matching_product["name"] + ". -- Price: " + str(matching_product["price"]))
 
 
 
