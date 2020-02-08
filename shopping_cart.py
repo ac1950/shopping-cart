@@ -50,16 +50,18 @@ while True:
     if inputed_id == "DONE" or inputed_id == "Done" or inputed_id == "done":
         break 
     else:
+       # matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
+       # matching_product = matching_products[0]
+       # running_total_price = running_total_price + matching_product["price"]
+       # print("Selected Product: " + matching_product["name"] + ". -- Price: " + str(matching_product["price"]))
        inputed_ids.append(inputed_id)
 
-for inputed_id in inputed_ids: 
-    matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
-    matching_product = matching_products[0]
-    running_total_price = running_total_price + matching_product["price"]
-    print("Selected Product: " + matching_product["name"] + ". -- Price: " + str(matching_product["price"])
+print(inputed_ids)
+
 
 # 
 # OUTPUT
+print("TOTAL PRICE: " + str(running_total_price)) #FROMAT AS USD 
 
 
 #requirements
