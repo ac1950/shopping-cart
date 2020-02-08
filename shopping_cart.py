@@ -40,6 +40,8 @@ print(products)
 #
 # ID Input
 
+# this initializes the variable
+running_total_price = 0
 
 while True: 
     inputed_id = input("Please input a product indentifier: ")
@@ -49,16 +51,14 @@ while True:
     else:
         matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
         matching_product = matching_products[0]
+        running_total_price = running_total_price + matching_product["price"]
         print("Selected Product: " + matching_product["name"] + ". -- Price: " + str(matching_product["price"]))
-
-
-
-
 
 
 
 #
 # OUTPUT
+print("TOTAL PRICE: " + str(running_total_price)) #FROMAT AS USD 
 
 
 #requirements
