@@ -33,17 +33,15 @@ def to_usd(my_price):
     """
     return f"${my_price:,.2f}" #> $12,000.71
 
-# TODO: write some Python code here to produce the desired output
 
-
-
-#
-# ID Input
+### ID Input
 
 # this initializes the variable
 running_total_price = 0
 inputed_ids = []
 
+#While loop -> check to see if this while True is best practice
+#Why would you want to loop forever? 
 while True: 
     inputed_id = input("Please input a product indentifier: ")
     # Stops loop if the user enters done
@@ -55,9 +53,11 @@ while True:
 
 
 
-# 
-# OUTPUT
+### OUTPUT
 
+#for loop saying: for my inputed id in the list of the inputed_ids (see else statement above),
+# list comprehension -> #Return an item for each item in our list of products if condition
+# 3rd line in embedded for loops sets the product as first in the loops
 for inputed_id in inputed_ids: 
     matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
     matching_product = matching_products[0]
