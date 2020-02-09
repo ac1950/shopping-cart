@@ -62,9 +62,9 @@ for inputed_id in inputed_ids:
     matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
     matching_product = matching_products[0]
     running_total_price = running_total_price + matching_product["price"]
-    print("Selected Product: " + matching_product["name"] + ". -- Price: " + str(matching_product["price"]))
+    print("Selected Product: " + matching_product["name"] + ". -- Price: " + to_usd(matching_product["price"]))
  
-print("TOTAL PRICE: " + str(running_total_price)) #FROMAT AS USD 
+print("TOTAL PRICE: " + to_usd(running_total_price)) 
 
 
 #requirements
