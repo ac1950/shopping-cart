@@ -93,9 +93,18 @@ print("----------------------------------------------------------------------")
 print("SUBTOTAL: " + to_usd(running_total_price)) 
 
 #calculaiting sales tax assuming DC doesn't exempt groceries
+#DC sales tax rate: 5.75%
+#source: http://www.tax-rates.org/district_of_columbia/sales-tax
 sales_tax = .0575
-tax = to_usd(running_total_price * sales_tax)
-print("TAX: "+ tax)
+tax = running_total_price * sales_tax
+print("TAX: "+ to_usd(tax))
+
+#total payment due
+totaldue = to_usd(tax + running_total_price)
+print("TOTAL: " + totaldue)
+print("----------------------------------------------------------------------")
+
+
 
 #requirements
 # A grocery store name of your choice- DONE
