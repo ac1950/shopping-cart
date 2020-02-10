@@ -55,18 +55,6 @@ while True:
 
 
 
-### OUTPUT
-
-#for loop saying: for my inputed id in the list of the inputed_ids (see else statement above),
-# list comprehension -> #Return an item for each item in our list of products if condition
-# 3rd line in embedded for loops sets the product as first in the loops
-for inputed_id in inputed_ids: 
-    matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
-    matching_product = matching_products[0]
-    running_total_price = running_total_price + matching_product["price"]
-    print("Selected Product: " + matching_product["name"] + ". -- Price: " + to_usd(matching_product["price"]))
- 
-
 
 
  ##FINAL OUTPUTS
@@ -82,14 +70,29 @@ now = datetime.datetime.now()
 time = now.strftime("%H:%M:%p")
 day = datetime.date.today()
 
-print("----------------------------------------------------")
+print("----------------------------------------------------------------------")
 print("CHECK OUT AT: " + str(day) + " " + time)
 print("TOTAL PRICE: " + to_usd(running_total_price)) 
-print("----------------------------------------------------")
+print("----------------------------------------------------------------------")
+
+
+
+#printing the selected products
+#for loop saying: for my inputed id in the list of the inputed_ids (see else statement above),
+# list comprehension -> #Return an item for each item in our list of products if condition
+# 3rd line in embedded for loops sets the product as first in the loops
+print("SELECTED PRODUCTS: ")
+for inputed_id in inputed_ids: 
+    matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
+    matching_product = matching_products[0]
+    running_total_price = running_total_price + matching_product["price"]
+    print ("..." + matching_product["name"] + " " + "(" + to_usd(matching_product["price"]) + ")" )
+
+print("----------------------------------------------------------------------")
 
 
 #requirements
-# A grocery store name of your choice
+# A grocery store name of your choice- DONE
 # A grocery store phone number and/or website URL and/or address of choice
 # The date and time of the beginning of the checkout process, formatted in a human-friendly way (e.g. 2020-02-07 03:54 PM)
 # The name and price of each shopping cart item, price being formatted as US dollars and cents (e.g. $3.50, etc.)
