@@ -92,7 +92,10 @@ print("----------------------------------------------------------------------")
 #Print the totals
 print("SUBTOTAL: " + to_usd(running_total_price)) 
 
-
+#calculaiting sales tax assuming DC doesn't exempt groceries
+sales_tax = .0575
+tax = to_usd(running_total_price * sales_tax)
+print("TAX: "+ tax)
 
 #requirements
 # A grocery store name of your choice- DONE
