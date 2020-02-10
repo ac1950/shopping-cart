@@ -72,7 +72,6 @@ day = datetime.date.today()
 
 print("----------------------------------------------------------------------")
 print("CHECK OUT AT: " + str(day) + " " + time)
-print("TOTAL PRICE: " + to_usd(running_total_price)) 
 print("----------------------------------------------------------------------")
 
 
@@ -89,6 +88,10 @@ for inputed_id in inputed_ids:
     print ("..." + matching_product["name"] + " " + "(" + to_usd(matching_product["price"]) + ")" )
 
 print("----------------------------------------------------------------------")
+
+#Print the totals
+print("SUBTOTAL: " + to_usd(running_total_price)) 
+
 
 
 #requirements
