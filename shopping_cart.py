@@ -1,5 +1,7 @@
 # shopping_cart.py
 
+import datetime
+
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -43,7 +45,7 @@ inputed_ids = []
 #While loop -> check to see if this while True is best practice
 #Why would you want to loop forever? 
 while True: 
-    inputed_id = input("Please input a product indentifier: ")
+    inputed_id = input("Please input a product indentifier or enter 'done': ")
     # Stops loop if the user enters done
     if inputed_id == "DONE" or inputed_id == "Done" or inputed_id == "done":
         break 
@@ -64,7 +66,26 @@ for inputed_id in inputed_ids:
     running_total_price = running_total_price + matching_product["price"]
     print("Selected Product: " + matching_product["name"] + ". -- Price: " + to_usd(matching_product["price"]))
  
+
+
+
+ ##FINAL OUTPUTS
+
+ #welcome message
+print("                                 ")
+print("CLEAN EATS GROCERY")
+print("WWW.CLEAN-EATS-GROCERY.COM")
+
+
+#print checkout time and date
+now = datetime.datetime.now()
+time = now.strftime("%H:%M:%p")
+day = datetime.date.today()
+
+print("----------------------------------------------------")
+print("CHECK OUT AT: " + str(day) + " " + time)
 print("TOTAL PRICE: " + to_usd(running_total_price)) 
+print("----------------------------------------------------")
 
 
 #requirements
