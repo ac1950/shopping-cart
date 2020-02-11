@@ -1,6 +1,6 @@
 # shopping-cart
 
-1. Clone this repository onto your local harddrive 
+1. Clone this repository onto your local hardrive 
 2. Navigate to the pathname in terminal 
 
 ## Environments
