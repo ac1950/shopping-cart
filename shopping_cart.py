@@ -124,6 +124,7 @@ MY_ADDRESS = os.environ.get("MY_EMAIL_ADDRESS", "OOPS, please set env var called
 print(SENDGRID_API_KEY)
 print(MY_ADDRESS)
 
+
 client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
 print("CLIENT:", type(client))
 
