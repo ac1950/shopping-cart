@@ -22,6 +22,12 @@ SENDGRID_API_KEY=" YOUR API KEY"
 SENDGRID_TEMPLATE_ID="YOUR TEMPLATE ID "
 MY_EMAIL_ADDRESS="YOUR EMAIL ADDRESS"
 
+## for importing a CSV
+1. Create a folder called Data if not already made
+2. place your products.csv file inside of said folder
+3. from within a virtual environment install pandas 
+'pip install pandas' 
 
 
 ## from within the virtual environment run using 'python shopping_cart.py'
+
