@@ -146,43 +146,53 @@ load_dotenv()
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "OOPS, please set env var called 'SENDGRID_API_KEY'")
 MY_ADDRESS = os.environ.get("MY_EMAIL_ADDRESS", "OOPS, please set env var called 'MY_EMAIL_ADDRESS'")
 
-print("EMAILED RECEIPT")
-emailed = input("Please enter your email address to your receipt: ")
-print("                 ")
+print("Would You Like An Email Receipt?")
+email_decision = input("Please Enter 'yes' or 'no': ")
+if email_decision == 'no' or email_decision == 'NO' or email_decision == 'No' or email_decision == 'n' or email_decision == 'N':
+    print("Okay! No Email Receipt Will Be Sent")
+elif email_decision == 'yes' or email_decision == 'YES' or email_decision == 'Yes' or email_decision == 'y' or email_decision == 'Y':
+    print("EMAIL RECEIPT")
+    emailed = input("Please enter your email address receipt: ")
+    print("                 ")
+    while '@' not in emailed:
+        print("Invalid Email Detected")
+        emailed = input("Please enter your email address: ")
+    client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
+    print("CLIENT:", type(client))
+
+    subject = "Your Receipt from Clean Eats Grocery Store"
 
 
-client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
-print("CLIENT:", type(client))
-
-subject = "Your Receipt from Clean Eats Grocery Store"
 
 
 
-
-
-html_content = "Thank You For Shopping at Clean Eats Grocery Store! Your Total is: " + totaldue + "       " + " Thank you. Come again!"
-message = Mail(from_email=MY_ADDRESS, to_emails=emailed, subject=subject, html_content=html_content)
+    html_content = "Thank You For Shopping at Clean Eats Grocery Store! Your Total is: " + totaldue + "       " + " Thank you. Come again!"
+    message = Mail(from_email=MY_ADDRESS, to_emails=emailed, subject=subject, html_content=html_content)
 
 
 
-try:
-    response = client.send(message)
+    try:
+        response = client.send(message)
 
-    print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
-    print(response.status_code) #> 202 indicates SUCCESS
-    print(response.body)
-    print(response.headers)
-
-except Exception as e:
-  print("OOPS", e.message)
-
-
-if str(response.status_code) == "202":
-        print("Email sent successfully!")
-else:
-        print("Oh, something went wrong with sending the email.")
-        print(response.status_code)
+        print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
+        print(response.status_code) #> 202 indicates SUCCESS
         print(response.body)
+        print(response.headers)
+
+    except Exception as e:
+      print("OOPS", e.message)
+
+
+    if str(response.status_code) == "202":
+            print("Email sent successfully!")
+    else:
+            print("Oh, something went wrong with sending the email.")
+            print(response.status_code)
+            print(response.body)
+    
+
+
+
 
 #requirements
 # A grocery store name of your choice- DONE
