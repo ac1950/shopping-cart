@@ -73,7 +73,7 @@ while True:
         print("----------------------------------------------------------------------")
         print("Product Indentifier Entered Not In Range")
         print("Please Make Sure You Entered The Correct Product ID")
-        print("Please Make You imported The Correct CSV File")
+        print("Please Make Sure You imported The Correct CSV File")
         print("----------------------------------------------------------------------")
     else:
         inputed_ids.append(inputed_id)
