@@ -57,9 +57,8 @@ while True:
 
 
 
- ##FINAL OUTPUTS
-
- #welcome message
+##FINAL OUTPUTS
+#welcome message
 print("                                 ")
 print("CLEAN EATS GROCERY")
 print("WWW.CLEAN-EATS-GROCERY.COM")
@@ -109,7 +108,6 @@ print("----------------------------------------------------------------------")
 
 
 ###Email Receipt
-# API Key: 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
 
 import os
 from dotenv import load_dotenv
@@ -123,6 +121,7 @@ MY_ADDRESS = os.environ.get("MY_EMAIL_ADDRESS", "OOPS, please set env var called
 
 print(SENDGRID_API_KEY)
 print(MY_ADDRESS)
+emailed = input("Enter your email address: ")
 
 
 client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
@@ -130,25 +129,31 @@ print("CLIENT:", type(client))
 
 subject = "Your Receipt from the Green Grocery Store"
 
-html_content = "Hello World"
-#
-# or maybe ...
-#html_content = "Hello <strong>World</strong>"
-#
-# or maybe ...
-#html_list_items = "<li>You ordered: Product 1</li>"
-#html_list_items += "<li>You ordered: Product 2</li>"
-#html_list_items += "<li>You ordered: Product 3</li>"
-#html_content = f"""
-#<h3>Hello this is your receipt</h3>
-#<p>Date: ____________</p>
-#<ol>
-#    {html_list_items}
-#</ol>
-#"""
-print("HTML:", html_content)
 
-message = Mail(from_email=MY_ADDRESS, to_emails=MY_ADDRESS, subject=subject, html_content=html_content)
+#
+#print("HTML:", html_content)
+#
+formatted_products = []
+for p in products:
+    formatted_product = p
+    if not isinstance(formatted_product["price"], str): # weird that this is necessary, only when there are duplicative selections, like 1,1 or 1,2,1 or 3,2,1,2 because when looping through and modifying a previous identical dict, it appears Python treats the next identical dict as the same object that we updated, so treating it as a copy of the first rather than its own unique object in its own right.
+        formatted_product["price"] = to_usd(p["price"])
+    formatted_products.append(formatted_product)
+
+email_body = {
+    "subtotal_price_usd": to_usd(running_total_price),
+    "tax_price_usd": to_usd(tax),
+    "total_price_usd": totaldue,
+    "products": formatted_products
+}
+
+
+
+#html_content = "Thank you for Shopping at The Green Grocery Store! Your Subtotal is: " + to_usd(running_total_price + ". Total tax: " + to_usd(tax) + ". Total Due: " + totaldue + "Thank you for shopping!"
+html_content = "Thank You For Shopping at The Green Grocery Store! Your Total is: " + totaldue + "       " + " Thank you. Come again!"
+message = Mail(from_email=MY_ADDRESS, to_emails=emailed, subject=subject, html_content=html_content)
+
+
 
 try:
     response = client.send(message)
@@ -160,6 +165,7 @@ try:
 
 except Exception as e:
   print("OOPS", e.message)
+
 
 
 #requirements
