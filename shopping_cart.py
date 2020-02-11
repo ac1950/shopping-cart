@@ -91,10 +91,9 @@ print("----------------------------------------------------------------------")
 #Print the totals
 print("SUBTOTAL: " + to_usd(running_total_price)) 
 
-#calculaiting sales tax assuming DC doesn't exempt groceries
-#DC sales tax rate: 5.75%
-#source: http://www.tax-rates.org/district_of_columbia/sales-tax
-sales_tax = .0575
+
+#NYC sales tax rate: 8.75%
+sales_tax = .0875
 tax = running_total_price * sales_tax
 print("TAX: "+ to_usd(tax))
 
@@ -103,8 +102,10 @@ totaldue = to_usd(tax + running_total_price)
 print("TOTAL: " + totaldue)
 print("----------------------------------------------------------------------")
 
-
-
+print("                     ")
+print("Thank you for shopping at Clean Eats Grocery!")
+print("See you again soon!")
+print("----------------------------------------------------------------------")
 
 
 ###Email Receipt
@@ -119,38 +120,21 @@ load_dotenv()
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "OOPS, please set env var called 'SENDGRID_API_KEY'")
 MY_ADDRESS = os.environ.get("MY_EMAIL_ADDRESS", "OOPS, please set env var called 'MY_EMAIL_ADDRESS'")
 
-print(SENDGRID_API_KEY)
-print(MY_ADDRESS)
-emailed = input("Enter your email address: ")
+print("EMAILED RECEIPT")
+emailed = input("Please enter your email address to your receipt: ")
+print("                 ")
 
 
 client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
 print("CLIENT:", type(client))
 
-subject = "Your Receipt from the Green Grocery Store"
-
-
-#
-#print("HTML:", html_content)
-#
-formatted_products = []
-for p in products:
-    formatted_product = p
-    if not isinstance(formatted_product["price"], str): # weird that this is necessary, only when there are duplicative selections, like 1,1 or 1,2,1 or 3,2,1,2 because when looping through and modifying a previous identical dict, it appears Python treats the next identical dict as the same object that we updated, so treating it as a copy of the first rather than its own unique object in its own right.
-        formatted_product["price"] = to_usd(p["price"])
-    formatted_products.append(formatted_product)
-
-email_body = {
-    "subtotal_price_usd": to_usd(running_total_price),
-    "tax_price_usd": to_usd(tax),
-    "total_price_usd": totaldue,
-    "products": formatted_products
-}
+subject = "Your Receipt from Clean Eats Grocery Store"
 
 
 
-#html_content = "Thank you for Shopping at The Green Grocery Store! Your Subtotal is: " + to_usd(running_total_price + ". Total tax: " + to_usd(tax) + ". Total Due: " + totaldue + "Thank you for shopping!"
-html_content = "Thank You For Shopping at The Green Grocery Store! Your Total is: " + totaldue + "       " + " Thank you. Come again!"
+
+
+html_content = "Thank You For Shopping at Clean Eats Grocery Store! Your Total is: " + totaldue + "       " + " Thank you. Come again!"
 message = Mail(from_email=MY_ADDRESS, to_emails=emailed, subject=subject, html_content=html_content)
 
 
@@ -167,6 +151,12 @@ except Exception as e:
   print("OOPS", e.message)
 
 
+if str(response.status_code) == "202":
+        print("Email sent successfully!")
+else:
+        print("Oh, something went wrong with sending the email.")
+        print(response.status_code)
+        print(response.body)
 
 #requirements
 # A grocery store name of your choice- DONE
@@ -177,33 +167,3 @@ except Exception as e:
 # The amount of tax owed (e.g. $1.70), calculated by multiplying the total cost by a New York City sales tax rate of 8.75% (for the purposes of this project, groceries are not exempt from sales tax)
 # The total amount owed, formatted as US dollars and cents (e.g. $21.17), calculated by adding together the amount of tax owed plus the total cost of all shopping cart items
 # A friendly message thanking the customer and/or encouraging the customer to shop again
-
-
-
-#example output
-# (shopping-env)  --->> python shopping_cart.py
-# Please input a product identifier: 1
-# Please input a product identifier: 2
-# Please input a product identifier: 3
-# Please input a product identifier: 2
-# Please input a product identifier: 1
-# Please input a product identifier: DONE
-#> ---------------------------------
-#> GREEN FOODS GROCERY
-#> WWW.GREEN-FOODS-GROCERY.COM
-#> ---------------------------------
-#> CHECKOUT AT: 2020-02-07 03:54 PM
-#> ---------------------------------
-#> SELECTED PRODUCTS:
-#>  ... Chocolate Sandwich Cookies ($3.50)
-#>  ... All-Seasons Salt ($4.99)
-#>  ... Robust Golden Unsweetened Oolong Tea ($2.49)
-#>  ... All-Seasons Salt ($4.99)
-#>  ... Chocolate Sandwich Cookies ($3.50)
-#> ---------------------------------
-#> SUBTOTAL: $19.47
-#> TAX: $1.70
-#> TOTAL: $21.17
-#> ---------------------------------
-#> THANKS, SEE YOU AGAIN SOON!
-#> ---------------------------------

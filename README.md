@@ -1,47 +1,27 @@
 # shopping-cart
 
-Repo Set-up
-1. Create a repository on GitHub 
-2. Create a file called shopping_cart.py and place the follow contents inside 
-# shopping_cart.py
+1. Clone this repository onto your local harddrive 
+2. Navigate to the pathname in terminal 
 
-products = [
-    {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
-    {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
-    {"id":3, "name": "Robust Golden Unsweetened Oolong Tea", "department": "beverages", "aisle": "tea", "price": 2.49},
-    {"id":4, "name": "Smart Ones Classic Favorites Mini Rigatoni With Vodka Cream Sauce", "department": "frozen", "aisle": "frozen meals", "price": 6.99},
-    {"id":5, "name": "Green Chile Anytime Sauce", "department": "pantry", "aisle": "marinades meat preparation", "price": 7.99},
-    {"id":6, "name": "Dry Nose Oil", "department": "personal care", "aisle": "cold flu allergy", "price": 21.99},
-    {"id":7, "name": "Pure Coconut Water With Orange", "department": "beverages", "aisle": "juice nectars", "price": 3.50},
-    {"id":8, "name": "Cut Russet Potatoes Steam N' Mash", "department": "frozen", "aisle": "frozen produce", "price": 4.25},
-    {"id":9, "name": "Light Strawberry Blueberry Yogurt", "department": "dairy eggs", "aisle": "yogurt", "price": 6.50},
-    {"id":10, "name": "Sparkling Orange Juice & Prickly Pear Beverage", "department": "beverages", "aisle": "water seltzer sparkling water", "price": 2.99},
-    {"id":11, "name": "Peach Mango Juice", "department": "beverages", "aisle": "refrigerated", "price": 1.99},
-    {"id":12, "name": "Chocolate Fudge Layer Cake", "department": "frozen", "aisle": "frozen dessert", "price": 18.50},
-    {"id":13, "name": "Saline Nasal Mist", "department": "personal care", "aisle": "cold flu allergy", "price": 16.00},
-    {"id":14, "name": "Fresh Scent Dishwasher Cleaner", "department": "household", "aisle": "dish detergents", "price": 4.99},
-    {"id":15, "name": "Overnight Diapers Size 6", "department": "babies", "aisle": "diapers wipes", "price": 25.50},
-    {"id":16, "name": "Mint Chocolate Flavored Syrup", "department": "snacks", "aisle": "ice cream toppings", "price": 4.50},
-    {"id":17, "name": "Rendered Duck Fat", "department": "meat seafood", "aisle": "poultry counter", "price": 9.99},
-    {"id":18, "name": "Pizza for One Suprema Frozen Pizza", "department": "frozen", "aisle": "frozen pizza", "price": 12.50},
-    {"id":19, "name": "Gluten Free Quinoa Three Cheese & Mushroom Blend", "department": "dry goods pasta", "aisle": "grains rice dried goods", "price": 3.99},
-    {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
-] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
+## environments
 
-def to_usd(my_price):
-    """
-    Converts a numeric value to usd-formatted string, for printing and display purposes.
-    Source: https://github.com/prof-rossetti/intro-to-python/blob/master/notes/python/datatypes/numbers.md#formatting-as-currency
-    Param: my_price (int or float) like 4000.444444
-    Example: to_usd(4000.444444)
-    Returns: $4,000.44
-    """
-    return f"${my_price:,.2f}" #> $12,000.71
-
-# TODO: write some Python code here to produce the desired output
-
-print(products)
-
-3. Create an environment by:
+1. 
+Create an environment by:
 conda create -n shopping-env python=3.7 # (first time only)
 conda activate shopping-env
+
+## email receipt 
+
+1. From within a virtual environment install sendgrid
+'pip install sendgrid == 6.0.5'
+
+2. sign up for a sendgrid account and set up an API key with full access permissions
+
+3. Create a .env file with the following:
+SENDGRID_API_KEY=" YOUR API KEY"
+SENDGRID_TEMPLATE_ID="YOUR TEMPLATE ID "
+MY_EMAIL_ADDRESS="YOUR EMAIL ADDRESS"
+
+
+
+## from within the virtual environment run using 'python shopping_cart.py'
