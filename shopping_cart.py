@@ -60,10 +60,21 @@ inputed_ids = []
 #While loop -> check to see if this while True is best practice
 #Why would you want to loop forever? 
 while True: 
+    check_range = False
     inputed_id = input("Please input a product indentifier or enter 'done': ")
     # Stops loop if the user enters done
     if inputed_id == "DONE" or inputed_id == "Done" or inputed_id == "done":
         break 
+    else:
+        for p in products:
+            if str(p["id"]) == inputed_id:
+                check_range = True
+    if check_range == False:
+        print("----------------------------------------------------------------------")
+        print("Product Indentifier Entered Not In Range")
+        print("Please Make Sure You Entered The Correct Product ID")
+        print("Please Make You imported The Correct CSV File")
+        print("----------------------------------------------------------------------")
     else:
         inputed_ids.append(inputed_id)
 
