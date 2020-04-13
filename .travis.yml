@@ -1,4 +1,5 @@
 #will use for travis testing (CI)
+import os
 dist: xenial
 language: python
 python:
