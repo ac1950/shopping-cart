@@ -174,6 +174,7 @@ def send_email(running_total_price):
                     print(response.body)
         else:
             email_decision = False
+    
 
 if __name__ == "__main__":
 
