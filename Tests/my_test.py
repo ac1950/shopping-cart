@@ -1,5 +1,4 @@
 
-import os
 from app.shopping_cart import to_usd, get_tax, get_total_due
 
 def test_to_usd():
