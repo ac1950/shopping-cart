@@ -35,3 +35,5 @@ From within the virtual environment install the required packages
 ### from within the virtual environment run using 
 `python shopping_cart.py`
 
+### Works Well
+
