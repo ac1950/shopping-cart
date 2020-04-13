@@ -37,4 +37,7 @@ From within the virtual environment install the required packages
 
 ### Works Well
 
+### Travis CI and Code Climate
+
+
 
