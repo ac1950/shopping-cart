@@ -23,11 +23,6 @@ def read_csv():
         products.append(p)
     return products
         
-
-
-
-
-
 def to_usd(my_price):
     """
     Converts a numeric value to usd-formatted string, for printing and display purposes.
@@ -36,7 +31,8 @@ def to_usd(my_price):
     Example: to_usd(4000.444444)
     Returns: $4,000.44
     """
-    return f"${my_price:,.2f}" #> $12,000.71
+    my_priceType = float(my_price)
+    return f"${my_priceType:,.2f}" #> $12,000.71
 
 def get_time_day(): 
     #print checkout time and date
@@ -69,7 +65,7 @@ def print_selected_products(inputed_ids):
         print ("..." + matching_product["name"] + " " + "(" + to_usd(matching_product["price"]) + ")" )
 
     print("----------------------------------------------------------------------")
-    return [running_total_price]
+    return running_total_price
 
 
 def get_tax(running_total_price):
@@ -79,86 +75,87 @@ def get_tax(running_total_price):
     #print("TAX: "+ to_usd(tax))
     return tax
 
-#Print the totals
-print("SUBTOTAL: " + to_usd(running_total_price)) 
+def get_total_due(running_total_price):
+    totaldue = to_usd(get_tax(running_total_price) + running_total_price)
+    return totaldue
+
+def print_final_totals(running_total_price):
+    print("SUBTOTAL: " + to_usd(running_total_price)) 
+    print("TOTAL: " + get_total_due(running_total_price))
+    print("----------------------------------------------------------------------")
+    print("                     ")
+    print("Thank you for shopping at Clean Eats Grocery!")
+    print("See you again soon!")
+    print("----------------------------------------------------------------------")
 
 
-#total payment due
-totaldue = to_usd(tax + running_total_price)
-print("TOTAL: " + totaldue)
-print("----------------------------------------------------------------------")
-
-print("                     ")
-print("Thank you for shopping at Clean Eats Grocery!")
-print("See you again soon!")
-print("----------------------------------------------------------------------")
 
 
 ###Email Receipt
 
-import os
-from dotenv import load_dotenv
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
-
-load_dotenv()
-
-SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "OOPS, please set env var called 'SENDGRID_API_KEY'")
-MY_ADDRESS = os.environ.get("MY_EMAIL_ADDRESS", "OOPS, please set env var called 'MY_EMAIL_ADDRESS'")
-
-
-email_decision = False
-while email_decision == False:
-
-    print("Would You Like An Email Receipt?")
-    email_decision = input("Please Enter 'yes' or 'no': ")
-    if email_decision == 'no' or email_decision == 'NO' or email_decision == 'No' or email_decision == 'n' or email_decision == 'N':
-        print("Okay! No Email Receipt Will Be Sent")
-        email_decision = True
-    elif email_decision == 'yes' or email_decision == 'YES' or email_decision == 'Yes' or email_decision == 'y' or email_decision == 'Y':
-        email_decision = True
-        print("----------------------------------------------------------------------")
-        emailed = input("Please enter your email address receipt: ")
-        print("                 ")
-        while '@' not in emailed:
-            print("Invalid Email Detected")
-            emailed = input("Please enter your email address: ")
-        client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
-        print("CLIENT:", type(client))
-
-        subject = "Your Receipt from Clean Eats Grocery Store"
-
-
-
-
-
-        html_content = "Thank You For Shopping at Clean Eats Grocery Store! Your Total is: " + totaldue + "       " + " Thank you. Come again!"
-        message = Mail(from_email=MY_ADDRESS, to_emails=emailed, subject=subject, html_content=html_content)
-
-
-
-        try:
-            response = client.send(message)
-
-            print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
-            print(response.status_code) #> 202 indicates SUCCESS
-            print(response.body)
-            print(response.headers)
-
-        except Exception as e:
-          print("OOPS", e.message)
-
-
-        if str(response.status_code) == "202":
-                print("Email sent successfully!")
-        else:
-                print("Oh, something went wrong with sending the email.")
-                print(response.status_code)
-                print(response.body)
-    else:
-        email_decision = False
-
-
+#import os
+#from dotenv import load_dotenv
+#from sendgrid import SendGridAPIClient
+#from sendgrid.helpers.mail import Mail
+#
+#load_dotenv()
+#
+#SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "OOPS, please set env var called 'SENDGRID_API_KEY'")
+#MY_ADDRESS = os.environ.get("MY_EMAIL_ADDRESS", "OOPS, please set env var called 'MY_EMAIL_ADDRESS'")
+#
+#
+#email_decision = False
+#while email_decision == False:
+#
+#    print("Would You Like An Email Receipt?")
+#    email_decision = input("Please Enter 'yes' or 'no': ")
+#    if email_decision == 'no' or email_decision == 'NO' or email_decision == 'No' or email_decision == 'n' or email_decision == 'N':
+#        print("Okay! No Email Receipt Will Be Sent")
+#        email_decision = True
+#    elif email_decision == 'yes' or email_decision == 'YES' or email_decision == 'Yes' or email_decision == 'y' or email_decision == 'Y':
+#        email_decision = True
+#        print("----------------------------------------------------------------------")
+#        emailed = input("Please enter your email address receipt: ")
+#        print("                 ")
+#        while '@' not in emailed:
+#            print("Invalid Email Detected")
+#            emailed = input("Please enter your email address: ")
+#        client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
+#        print("CLIENT:", type(client))
+#
+#        subject = "Your Receipt from Clean Eats Grocery Store"
+#
+#
+#
+#
+#
+#        html_content = "Thank You For Shopping at Clean Eats Grocery Store! Your Total is: " + totaldue + "       " + " Thank you. Come again!"
+#        message = Mail(from_email=MY_ADDRESS, to_emails=emailed, subject=subject, html_content=html_content)
+#
+#
+#
+#        try:
+#            response = client.send(message)
+#
+#            print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
+#            print(response.status_code) #> 202 indicates SUCCESS
+#            print(response.body)
+#            print(response.headers)
+#
+#        except Exception as e:
+#          print("OOPS", e.message)
+#
+#
+#        if str(response.status_code) == "202":
+#                print("Email sent successfully!")
+#        else:
+#                print("Oh, something went wrong with sending the email.")
+#                print(response.status_code)
+#                print(response.body)
+#    else:
+#        email_decision = False
+#
+#
 if __name__ == "__main__":
     products = read_csv()
 
@@ -190,6 +187,7 @@ if __name__ == "__main__":
     final_output_welcome(day, time)
 
     running_total_price =  print_selected_products(inputed_ids)
+    print_final_totals(running_total_price)
 
 
 
