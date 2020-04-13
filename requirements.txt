@@ -4,3 +4,5 @@ datetime
 pandas
 sendgrid 
 pytest
+requests
+python-dotenv
