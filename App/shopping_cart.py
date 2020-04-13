@@ -39,6 +39,10 @@ def to_usd(my_price):
     return f"${my_priceType:,.2f}" #> $12,000.71
 
 def get_time_day(): 
+    """ 
+    uses the datetime package to find the time now and the day today 
+    """ 
+
     #print checkout time and date
     now = datetime.datetime.now()
     time = now.strftime("%H:%M:%p")
@@ -46,6 +50,9 @@ def get_time_day():
     return [time, day]
 
 def final_output_welcome(day, time):
+
+    """ prints the header for the final receipt """ 
+
     print("                                 ")
     print("CLEAN EATS GROCERY")
     print("WWW.CLEAN-EATS-GROCERY.COM")
@@ -55,10 +62,13 @@ def final_output_welcome(day, time):
     print("----------------------------------------------------------------------")
 
 def print_selected_products(inputed_ids):
-    #printing the selected products
-    #for loop saying: for my inputed id in the list of the inputed_ids (see else statement above),
-    # list comprehension -> #Return an item for each item in our list of products if condition
-    # 3rd line in embedded for loops sets the product as first in the loops
+    """ 
+    printing the selected products
+    for loop saying: for my inputed id in the list of the inputed_ids (see else statement above),
+    list comprehension -> #Return an item for each item in our list of products if condition
+    3rd line in embedded for loops sets the product as first in the loops
+    """ 
+
     running_total_price = 0
     print("SELECTED PRODUCTS: ")
     for inputed_id in inputed_ids: 
@@ -71,6 +81,10 @@ def print_selected_products(inputed_ids):
     return running_total_price
 
 def get_tax(running_total_price):
+    """
+    calculates the tax using the NYC sales tax rate
+    """
+
     #NYC sales tax rate: 8.75%
     sales_tax = .0875
     tax = running_total_price * sales_tax
@@ -78,10 +92,18 @@ def get_tax(running_total_price):
     return tax
 
 def get_total_due(running_total_price):
+    """
+    calculates the total due using the running total price 
+    """ 
+
     totaldue = to_usd(get_tax(running_total_price) + running_total_price)
     return totaldue
 
 def print_final_totals(running_total_price):
+    """
+    Prints the final receipt using some of the functions listed above
+    """ 
+
     print("SUBTOTAL: " + to_usd(running_total_price)) 
     print("TOTAL: " + get_total_due(running_total_price))
     print("----------------------------------------------------------------------")
@@ -91,6 +113,11 @@ def print_final_totals(running_total_price):
     print("----------------------------------------------------------------------")
 
 def send_email(running_total_price): 
+    """
+    Takes inputs for decisions on whether to send email or not and to what email
+    Uses the sendgrid API to send an email
+    """ 
+
     load_dotenv()
 
     SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "OOPS, please set env var called 'SENDGRID_API_KEY'")
@@ -147,9 +174,13 @@ def send_email(running_total_price):
                     print(response.body)
         else:
             email_decision = False
-
+    
 
 if __name__ == "__main__":
+
+    """ 
+    main function that determines what and when functions are called 
+    """ 
     products = read_csv()
 
     ### ID Input
