@@ -1,6 +1,6 @@
 #will use for travis testing (CI)
-import os
-dist: xenial
+
+dist: osx
 language: python
 python:
   - "3.7"
