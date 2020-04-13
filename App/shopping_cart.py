@@ -10,7 +10,7 @@ def read_csv():
     Reads the product list from the CSV in the data file 
     Creates a list 
     """ 
-    
+
     products = []
     stats = pd.read_csv("Data/products.csv")
     for index, row in stats.iterrows():
@@ -21,6 +21,10 @@ def read_csv():
         p["aisle"] = row["aisle"]
         p["price"] = float(row["price"])
         products.append(p)
+    return products
+        
+
+
 
 
 
@@ -34,78 +38,50 @@ def to_usd(my_price):
     """
     return f"${my_price:,.2f}" #> $12,000.71
 
+def get_time_day(): 
+    #print checkout time and date
+    now = datetime.datetime.now()
+    time = now.strftime("%H:%M:%p")
+    day = datetime.date.today()
+    return [time, day]
 
-### ID Input
+def final_output_welcome(day, time):
+    print("                                 ")
+    print("CLEAN EATS GROCERY")
+    print("WWW.CLEAN-EATS-GROCERY.COM")
 
-# this initializes the variable
-running_total_price = 0
-inputed_ids = []
-
-#While loop -> check to see if this while True is best practice
-#Why would you want to loop forever? 
-while True: 
-    check_range = False
-    inputed_id = input("Please input a product indentifier or enter 'done': ")
-    # Stops loop if the user enters done
-    if inputed_id == "DONE" or inputed_id == "Done" or inputed_id == "done":
-        break 
-    else:
-        for p in products:
-            if str(p["id"]) == inputed_id:
-                check_range = True
-    if check_range == False:
-        print("----------------------------------------------------------------------")
-        print("Product Indentifier Entered Not In Range")
-        print("Please Make Sure You Entered The Correct Product ID")
-        print("Please Make Sure You imported The Correct CSV File")
-        print("----------------------------------------------------------------------")
-    else:
-        inputed_ids.append(inputed_id)
+    print("----------------------------------------------------------------------")
+    print("CHECK OUT AT: " + str(day) + " " + time)
+    print("----------------------------------------------------------------------")
 
 
+def print_selected_products(inputed_ids):
+    #printing the selected products
+    #for loop saying: for my inputed id in the list of the inputed_ids (see else statement above),
+    # list comprehension -> #Return an item for each item in our list of products if condition
+    # 3rd line in embedded for loops sets the product as first in the loops
+    running_total_price = 0
+    print("SELECTED PRODUCTS: ")
+    for inputed_id in inputed_ids: 
+        matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
+        matching_product = matching_products[0]
+        running_total_price = running_total_price + matching_product["price"]
+        print ("..." + matching_product["name"] + " " + "(" + to_usd(matching_product["price"]) + ")" )
+
+    print("----------------------------------------------------------------------")
+    return [running_total_price]
 
 
-
-
-##FINAL OUTPUTS
-#welcome message
-print("                                 ")
-print("CLEAN EATS GROCERY")
-print("WWW.CLEAN-EATS-GROCERY.COM")
-
-
-#print checkout time and date
-now = datetime.datetime.now()
-time = now.strftime("%H:%M:%p")
-day = datetime.date.today()
-
-print("----------------------------------------------------------------------")
-print("CHECK OUT AT: " + str(day) + " " + time)
-print("----------------------------------------------------------------------")
-
-
-
-#printing the selected products
-#for loop saying: for my inputed id in the list of the inputed_ids (see else statement above),
-# list comprehension -> #Return an item for each item in our list of products if condition
-# 3rd line in embedded for loops sets the product as first in the loops
-print("SELECTED PRODUCTS: ")
-for inputed_id in inputed_ids: 
-    matching_products = [p for p in products if str(p["id"]) == str(inputed_id)] #had to convert to str in order for the loop to match
-    matching_product = matching_products[0]
-    running_total_price = running_total_price + matching_product["price"]
-    print ("..." + matching_product["name"] + " " + "(" + to_usd(matching_product["price"]) + ")" )
-
-print("----------------------------------------------------------------------")
+def get_tax(running_total_price):
+    #NYC sales tax rate: 8.75%
+    sales_tax = .0875
+    tax = running_total_price * sales_tax
+    #print("TAX: "+ to_usd(tax))
+    return tax
 
 #Print the totals
 print("SUBTOTAL: " + to_usd(running_total_price)) 
 
-
-#NYC sales tax rate: 8.75%
-sales_tax = .0875
-tax = running_total_price * sales_tax
-print("TAX: "+ to_usd(tax))
 
 #total payment due
 totaldue = to_usd(tax + running_total_price)
@@ -181,6 +157,41 @@ while email_decision == False:
                 print(response.body)
     else:
         email_decision = False
+
+
+if __name__ == "__main__":
+    products = read_csv()
+
+    ### ID Input
+    running_total_price = 0
+    inputed_ids = []
+    while True: 
+        check_range = False
+        inputed_id = input("Please input a product indentifier or enter 'done': ")
+        # Stops loop if the user enters done
+        if inputed_id == "DONE" or inputed_id == "Done" or inputed_id == "done":
+            break 
+        else:
+            for p in products:
+                if str(p["id"]) == inputed_id:
+                    check_range = True
+        if check_range == False:
+            print("----------------------------------------------------------------------")
+            print("Product Indentifier Entered Not In Range")
+            print("Please Make Sure You Entered The Correct Product ID")
+            print("Please Make Sure You imported The Correct CSV File")
+            print("----------------------------------------------------------------------")
+        else:
+            inputed_ids.append(inputed_id)
+    
+    time = get_time_day()[0]
+    day = get_time_day()[1]
+
+    final_output_welcome(day, time)
+
+    running_total_price =  print_selected_products(inputed_ids)
+
+
 
 
 
